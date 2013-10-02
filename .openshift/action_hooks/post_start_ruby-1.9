@@ -5,6 +5,7 @@ set -e
 pushd ${OPENSHIFT_REPO_DIR} > /dev/null
 
 echo "Starting sidekiq..."
-bundle exec "sidekiq -d -c 5 -P '${OPENSHIFT_DATA_DIR}sidekiq.pid' -L '${OPENSHIFT_DATA_DIR}sidekiq.log'"
+sleep 15
+bundle exec "sidekiq -d -r ./ -c 5 -e production -P '${OPENSHIFT_DATA_DIR}sidekiq.pid' -L '${OPENSHIFT_DATA_DIR}sidekiq.log'"
 
 popd
