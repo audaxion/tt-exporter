@@ -15,5 +15,5 @@ if [ -f "${OPENSHIFT_DATA_DIR}sidekiq.pid" ]; then
   rm "${OPENSHIFT_DATA_DIR}sidekiq.pid"
 fi
 
-bundle exec sidekiq -d -c 5 -P "${OPENSHIFT_DATA_DIR}sidekiq.pid" -L "${OPENSHIFT_DATA_DIR}sidekiq.log"
+bundle exec 'sidekiq -d -c 5 -P "${OPENSHIFT_DATA_DIR}sidekiq.pid" -L "${OPENSHIFT_DATA_DIR}sidekiq.log"'
 popd > /dev/null
