@@ -1,9 +1,12 @@
 require 'sidekiq/web'
 
-REDIS_CONFIG = { :url => "redis://:#{ENV['REDIS_PASSWORD']}@#{ENV['OPENSHIFT_REDIS_HOST']}:#{ENV['OPENSHIFT_REDIS_PORT']}/12", :namespace => 'sidekiq'  }
+REDIS_CONFIG = { :url => "unix:///#{ENV['OPENSHIFT_DATA_DIR']}redis/redis.sock", :namespace => 'sidekiq'  }
 
 Sidekiq.configure_server do |config|
-  config.redis = { :url => "redis://:#{ENV['REDIS_PASSWORD']}@#{ENV['OPENSHIFT_REDIS_HOST']}:#{ENV['OPENSHIFT_REDIS_PORT']}/12", :namespace => 'sidekiq'  }
+  config.redis = REDIS_CONFIG
+  config.options = config.options.merge({
+      concurrency: 5
+  })
   config.server_middleware do |chain|
     chain.add Kiqstand::Middleware
   end
