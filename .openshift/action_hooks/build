@@ -34,7 +34,7 @@ if [ "$MAKE_IS_DONE" == "yes" ]; then
 > daemonize yes
 21,22c21
 < pidfile /var/run/redis.pid
-<
+< 
 ---
 > pidfile ${OPENSHIFT_DATA_DIR}redis/redis.pid
 24c24
