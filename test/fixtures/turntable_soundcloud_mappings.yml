@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  tt_id: MyString
+  sc_id: MyString
+
+two:
+  tt_id: MyString
+  sc_id: MyString

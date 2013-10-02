@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  tt_id: MyString
+  sc_id: MyString
+  processing: false
+
+two:
+  tt_id: MyString
+  sc_id: MyString
+  processing: false

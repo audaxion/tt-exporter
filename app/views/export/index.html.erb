@@ -1,0 +1,30 @@
+<%= form_tag(export_playlist_url, role: 'form') do %>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="form-group">
+                <label for="playlist_name">Playlist Name</label>
+                <input type="text" id="playlist_name" name="playlist_name" class="form-control" placeholder="Playlist Name" value="<%= @playlist_name %>">
+            </div>
+            <div class="form-group">
+                <label for="songs">Turntable.fm songs</label>
+                <span class="help-block">To get the list of songs to export, drag this bookmarklet
+                    (<a href="javascript:window.location.href='data:application/octet-stream;charset=utf-8,'+JSON.stringify(turntable.playlist.fileids);">Export Playlist</a>)
+                    to your address bar. Then open the file you downloaded (the file name should be 'download') in your
+                    favorite text editor and copy/paste the contents into this box. Make sure you don't change anything or it won't work!!!</span>
+                <textarea id="songs" name="songs" class="form-control" rows="10" placeholder="Turntable.fm songs..." value="<%= @songs %>"></textarea>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="playlist">Soundcloud Playlist</label>
+                <select id="playlist" name="playlist" class="form-control" size="20">
+                    <option value="null" selected="selected">Create New Playlist</option>
+                    <% @playlists.each do |playlist| %>
+                    <option value="<%= playlist.id %>"><%= playlist.title %></option>
+                    <% end %>
+                </select>
+            </div>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-default">Submit</button>
+<% end %>
