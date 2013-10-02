@@ -4,9 +4,6 @@ REDIS_CONFIG = { :url => "unix:///#{ENV['OPENSHIFT_DATA_DIR']}redis/redis.sock",
 
 Sidekiq.configure_server do |config|
   config.redis = REDIS_CONFIG
-  config.options = config.options.merge({
-      concurrency: 5
-  })
   config.server_middleware do |chain|
     chain.add Kiqstand::Middleware
   end
