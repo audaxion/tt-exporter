@@ -21,7 +21,6 @@ class SongWorker
       end
     end
 
-    #redis = Redis.new(:path => "#{ENV['OPENSHIFT_DATA_DIR']}redis/redis.sock")
     batch_count = $redis.decr("jobs_remaining_#{playlist_id}")
     puts "JOBS LEFT :::::::::::::::::::::::> #{batch_count}"
     if batch_count < 1
