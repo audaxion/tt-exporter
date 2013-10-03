@@ -21,10 +21,11 @@ class SongWorker
       end
     end
 
-    batch_count = $redis.decr("jobs_remaining_#{playlist_id}")
+    redis = Redis.new($redis_config)
+    batch_count = redis.decr("jobs_remaining_#{playlist_id}")
     puts "JOBS LEFT :::::::::::::::::::::::> #{batch_count}"
     if batch_count < 1
-      $redis.del "jobs_remaining_#{playlist_id}"
+      redis.del "jobs_remaining_#{playlist_id}"
       tracks = playlist.songs.pluck(:sc_id).map { |song| {:id => song} }
 
       client = Soundcloud.new(:access_token => user.access_token)

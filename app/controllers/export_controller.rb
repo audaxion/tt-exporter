@@ -38,7 +38,8 @@ class ExportController < ApplicationController
     end
     current_user.save!
 
-    $redis.set "jobs_remaining_#{playlist_id}", tt_songs.count
+    redis = Redis.new($redis_config)
+    redis.set "jobs_remaining_#{playlist_id}", tt_songs.count
     SoundcloudWorker.perform_async(current_user.id.to_s, playlist.id.to_s, tt_songs)
 
     redirect_to export_path, :notice => "Processing #{tt_songs.count} song#{tt_songs.count>1?'s':''} into Soundcloud playlist #{playlist_name}. This might take a while. When the songs are done being processed they'll be added to your soundcloud account.", :playlist_id => playlist_id
@@ -47,7 +48,8 @@ class ExportController < ApplicationController
   def playlist_progress
     playlist = current_user.playlists.find(BSON::ObjectId.from_string(params[:playlist_id]))
 
-    jobs_remaining = $redis.get("jobs_remaining_#{playlist.id.to_s}").to_i
+    redis = Redis.new($redis_config)
+    jobs_remaining = redis.get("jobs_remaining_#{playlist.id.to_s}").to_i
     jobs_processed = playlist.total_songs - jobs_remaining
     progress = (jobs_processed.to_f / playlist.total_songs) * 100
 
