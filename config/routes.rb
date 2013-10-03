@@ -10,6 +10,8 @@ TurntableExporter::Application.routes.draw do
   match '/signin' => 'sessions#new', :as => :signin, via: [:get, :post]
   match '/export' => 'export#index', :as => :export, via: [:get, :post]
   match '/export/process_playlist' => 'export#process_turntable_playlist', :as => :export_playlist, via: [:get, :post]
+  match '/playlist/progress/:playlist_id' => 'export#playlist_progress', :as => :playlist_progress, via: [:get]
+  match '/scplaylists' => 'export#sc_playlists', via: [:get]
 
   mount Sidekiq::Web, at: '/sidekiq'
 

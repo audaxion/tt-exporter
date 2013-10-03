@@ -8,7 +8,7 @@ class SongWorker
     playlist.songs << song unless playlist.songs.find(song.id)
     playlist.save!
 
-    if song.sc_id.nil?
+    if !song.processed
       uri = URI("http://turntable.fm/link/?fileid=#{tt_id}&site=soundcloud")
       response = Net::HTTP.get_response(uri)
       if response.code == '302'
@@ -21,11 +21,11 @@ class SongWorker
       end
     end
 
-    redis = Redis.new(:path => "#{ENV['OPENSHIFT_DATA_DIR']}redis/redis.sock")
-    batch_count = redis.decr("jobs_remaining_#{playlist_id}")
+    #redis = Redis.new(:path => "#{ENV['OPENSHIFT_DATA_DIR']}redis/redis.sock")
+    batch_count = $redis.decr("jobs_remaining_#{playlist_id}")
     puts "JOBS LEFT :::::::::::::::::::::::> #{batch_count}"
     if batch_count < 1
-      redis.del "jobs_remaining_#{playlist_id}"
+      $redis.del "jobs_remaining_#{playlist_id}"
       tracks = playlist.songs.pluck(:sc_id).map { |song| {:id => song} }
 
       client = Soundcloud.new(:access_token => user.access_token)
@@ -49,7 +49,6 @@ class SongWorker
         end
 
         playlist.sc_playlist_id = sc_playlist.id
-        playlist.save!
       else
         sc_playlist = client.get("/me/playlists/#{playlist.sc_playlist_id}")
         track_ids = sc_playlist.tracks.map(&:id)
@@ -70,6 +69,9 @@ class SongWorker
           end
         end
       end
+
+      playlist.processing = false
+      playlist.save!
     end
   end
 end

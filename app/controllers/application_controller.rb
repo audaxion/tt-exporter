@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
   end
 
   def sc_client
-    Soundcloud.new(:access_token => current_user.access_token) if current_user
+    @sc_client ||= Soundcloud.new(:access_token => current_user.access_token) if current_user
   end
 
   def user_signed_in?
