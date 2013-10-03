@@ -1,6 +1,6 @@
 require 'sidekiq/web'
 
-if Rails.env == 'production'
+if ENV['RAILS_ENV'] == 'production' || Rails.env == 'production'
   REDIS_CONFIG = { :url => "unix:///#{ENV['OPENSHIFT_DATA_DIR']}redis/redis.sock", :namespace => 'sidekiq'  }
 else
   REDIS_CONFIG = { :url => ENV['REDIS_URL'], :namespace => 'sidekiq'  }
