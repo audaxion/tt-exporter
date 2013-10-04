@@ -11,7 +11,9 @@ source ${OPENSHIFT_DATA_DIR}.private
 pushd ${OPENSHIFT_REPO_DIR} > /dev/null
 echo "Starting Sidekiq worker..."
 if [ -f "${OPENSHIFT_DATA_DIR}sidekiq.pid" ]; then
+  set +e
   kill $(cat "${OPENSHIFT_DATA_DIR}sidekiq.pid")
+  set -e
   rm "${OPENSHIFT_DATA_DIR}sidekiq.pid"
 fi
 
