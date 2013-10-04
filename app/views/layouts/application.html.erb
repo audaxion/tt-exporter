@@ -38,7 +38,14 @@
 <%= yield %>
 </div>
 <footer class="container">
-    <div><small><a href="http://plug.dj">Plug.dj</a> is ©2013 Plug DJ, LLC. | <a href="http://turntable.fm">turntable.fm</a> is © 2013 turntable.fm | <a href="http://soundcloud.com">Soundcloud</a> is © 2013 Soundcloud</small></div>
+    <div class="row">
+        <div class="col-md-8">
+            <small><a href="http://plug.dj">Plug.dj</a> is ©2013 Plug DJ, LLC. | <a href="http://turntable.fm">turntable.fm</a> is © 2013 turntable.fm | <a href="http://soundcloud.com">Soundcloud</a> is © 2013 Soundcloud</small>
+        </div>
+        <div class="col-md-4">
+            <small class="pull-right"><strong>Over <%= @total_songs %> unique songs processed so far!</strong></small>
+        </div>
+    </div>
 </footer>
 </body>
 </html>

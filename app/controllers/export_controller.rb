@@ -2,6 +2,7 @@ class ExportController < ApplicationController
   before_filter :authenticate_user!
 
   def index
+    @total_songs = Song.count
     @processing_playlists = current_user.playlists.where(processing: true).all || []
   end
 
