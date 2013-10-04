@@ -27,6 +27,13 @@ var updateProgressBars = function() {
         $.get('/playlist/progress/' + playlist_id, function(data) {
             console.log(data + "% complete");
             playlist.width(data + '%');
+            if (parseFloat(data) < 100.0) {
+                $("#parent" + playlist_id).addClass("progress-striped active");
+                playlist.removeClass("progress-bar-success");
+            } else {
+                $("#parent" + playlist_id).removeClass("progress-striped active");
+                playlist.addClass("progress-bar-success");
+            }
             $("#processPercent" + playlist_id).text(data);
         })
     });
